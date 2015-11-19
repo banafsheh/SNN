@@ -1,0 +1,16 @@
+/*
+ * testPolygroup.h
+ *
+ *  Created on: Jul 28, 2015
+ *      Author: banafsheh
+ */
+
+#ifndef TESTPOLYGROUP_H_
+#define TESTPOLYGROUP_H_
+
+__global__ void testPolygroup(double* a, double* d, double dpre[225][50],
+		double delay[225][22], double ppre[225][50], double post[225][22], double pp[225][22],
+		double pre[225][50], double s[225][22], bool* pngOutput, int* anchors[1873200][3],
+		int* N, int* D, int* T, double* inputNeur, int* inputTime);
+
+#endif /* TESTPOLYGROUP_H_ */

@@ -1,0 +1,22 @@
+18:55:03 **** Build of configuration Debug for project test ****
+make all 
+Building file: ../add.cu
+Invoking: NVCC Compiler
+/usr/local/cuda-7.0/bin/nvcc -G -g -O0 -gencode arch=compute_20,code=sm_20  -odir "." -M -o "add.d" "../add.cu"
+/usr/local/cuda-7.0/bin/nvcc -G -g -O0 --compile --relocatable-device-code=false -gencode arch=compute_20,code=compute_20 -gencode arch=compute_20,code=sm_20  -x cu -o  "add.o" "../add.cu"
+Finished building: ../add.cu
+ 
+Building file: ../hellocudaa.cu
+Invoking: NVCC Compiler
+/usr/local/cuda-7.0/bin/nvcc -G -g -O0 -gencode arch=compute_20,code=sm_20  -odir "." -M -o "hellocudaa.d" "../hellocudaa.cu"
+/usr/local/cuda-7.0/bin/nvcc -G -g -O0 --compile --relocatable-device-code=false -gencode arch=compute_20,code=compute_20 -gencode arch=compute_20,code=sm_20  -x cu -o  "hellocudaa.o" "../hellocudaa.cu"
+Finished building: ../hellocudaa.cu
+ 
+Building target: test
+Invoking: NVCC Linker
+/usr/local/cuda-7.0/bin/nvcc --cudart static --relocatable-device-code=false -gencode arch=compute_20,code=compute_20 -gencode arch=compute_20,code=sm_20 -link -o  "test"  ./add.o ./hellocudaa.o   
+Finished building target: test
+ 
+
+18:55:13 Build Finished (took 9s.900ms)
+

@@ -1,0 +1,14 @@
+/*
+ * ModelMaking.h
+ *
+ *  Created on: Oct 25, 2015
+ *      Author: banafsheh
+ */
+
+#ifndef MODELMAKING_H_
+#define MODELMAKING_H_
+
+void ModelMaking(bool* pngOutput,int* anchors,int anchorSize,double* inpuNeur,double* inputTime);
+
+
+#endif /* MODELMAKING_H_ */

@@ -1,0 +1,74 @@
+/*
+ * ModelMaking.cu
+ *
+ *  Created on: Oct 25, 2015
+ *      Author: banafsheh
+ */
+#include "ModelMaking.h"
+#include "math.h"
+#include <cstring>
+#include <string>
+#include <vector>
+
+void ModelMaking(bool* pngOutput, int* anchors, int anchorSize,
+		double* inputNeur, double* inputTime) {
+
+	std::vector<std::string> currentModel;
+
+	for (int i = 0; i < anchorSize; i++) {
+		if (pngOutput[i] == true) {
+			int numDigit1 = 0, numDigit2 = 0;
+			/////////////////////////////////////round angle
+			int digit1 = inputNeur[anchors[i]] - 5;
+			if (digit1 < 0) {
+				digit1 = digit1 + 360;
+			}
+			digit1 = ceil(digit1 / 10) * 10 + 5;
+			if (digit1 > 360) {
+				digit1 = digit1 % 10;
+			}
+			////////////////////////////////////////
+			int digit2 = inputNeur[anchors[i + 1]] - 5;
+			if (digit2 < 0) {
+				digit2 = digit2 + 360;
+			}
+			digit2 = (int) ceil(digit2 / 10) * 10 + 5;
+			if (digit2 > 360) {
+				digit2 = digit2 % 10;
+			}
+			////////////////////////////////////////
+			int digit3 = inputNeur[anchors[i + 2]] - 5;
+			if (digit3 < 0) {
+				digit3 = digit3 + 360;
+			}
+			digit3 = (int) ceil(digit3 / 10) * 10 + 5;
+			if (digit3 > 360) {
+				digit3 = digit3 % 10;
+			}
+			////////////////////////////////////////
+			//if (number < 0)
+			//digits = 1; // remove this line if '-' counts as a digit
+			while (digit1) {
+				digit1 /= 10;
+				numDigit1++;
+			}
+
+			while (digit2) {
+				digit2 /= 10;
+				numDigit2++;
+			}
+
+			//fg=c11*power(10,e2+e3+2);
+			//fg1=c22*power(10,e3+1);
+			//fg2=c33;
+			//fgg=fg+fg1+fg2;
+
+			digit1 = digit1 * pow(10, numDigit1 + numDigit2 + 2);
+			digit2 = digit2 * pow(10, numDigit2 + 1);
+			int pngInd = digit1 + digit2 + digit3;
+
+		}
+	}
+
+}
+

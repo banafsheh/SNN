@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;SnnHandDataNpjournal/testPolygroup&apos; to &apos;testPolygroup.cu&apos;" description="Rename resource &apos;testPolygroup&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="testPolygroup" name="testPolygroup.cu" stamp="1438144010397" updateReferences="true"/>
+</session>

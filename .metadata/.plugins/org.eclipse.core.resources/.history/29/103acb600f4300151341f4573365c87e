@@ -1,0 +1,416 @@
+/*
+ * polychronous.cu
+ *
+ *  Created on: Jul 28, 2015
+ *      Author: banafsheh
+ */
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <cstring>
+#include "testPolygroup.h"
+//#include "HANDLE_ERROR.h"
+//nvcc -arch=sm _ 30;
+#define SIZE 955860
+
+int i = 0, j = 0, k = 0, i1 = 0;
+double a[225];
+double d[225];
+double dpre[225][50];
+double delay[225][22];
+double ppre[225][50];
+double post[225][22];
+double pp[225][22];
+double pre[225][50];
+double s[225][22];
+//bool pngOutput[SIZE];
+//int anchors[SIZE][3];
+int N = 225;
+int D = 20;
+int T = 300;
+//todo these are hard code, we have to change it
+double inputTime[53];
+double inputNeur[53];
+
+int main() {
+	bool *pngOutput = new bool[SIZE];
+	int** anchors = new int*[SIZE];
+	for (i = 0; i < SIZE; ++i) {
+		anchors[i] = new int[3];
+	}
+	/*cudaDeviceProp prop;
+
+	 printf("Compute capability:%d.%d\n", prop.major, prop.minor);
+
+	 //cudaDeviceProp prop;
+	 int dev;
+	 HANDLE_ERROR(cudaGetDevice(&dev));
+	 printf("ID of current CUDA device:%d\n", dev);
+	 memset(&prop, 0, sizeof(cudaDeviceProp));
+	 prop.major = 1;
+	 prop.minor = 3;
+	 HANDLE_ERROR(cudaChooseDevice(&dev, &prop));
+	 printf("ID of CUDA device closest to revision 1.3: %d\n", dev);
+	 HANDLE_ERROR(cudaSetDevice(dev));*/
+
+	std::ifstream readera("a.txt");
+	std::ifstream readerd("d.txt");
+	std::ifstream readerdpre("dpre.txt");
+	std::ifstream readerdelay("delay.txt");
+	std::ifstream readerppre("ppre.txt");
+	std::ifstream readerpost("post.txt");
+	std::ifstream readerpp("pp.txt");
+	std::ifstream readerpre("pre.txt");
+	std::ifstream readerinNeur("neur.txt");
+	std::ifstream readers("s.txt");
+	std::ifstream readerinTime("time.txt");
+
+
+	 readera.open("a.txt");
+	 readerd.open("d.txt");
+	 readerdpre.open("dpre.txt");
+	 readerdelay.open("delay.txt");
+	 readerdelay.open("ppre.txt");
+	 readerdelay.open("post.txt");
+	 readerdelay.open("pp.txt");
+	 readerdelay.open("pre.txt");
+	//readerinNeur.open("inputNeur.txt");
+	i = 0;
+	while (!readera.eof()) {
+		readera >> a[i++];
+	}
+
+	i = 0;
+
+	while (!readerd.eof()) {
+		readerd >> d[i++];
+	}
+
+	i = 0;
+
+	while (!readerdpre.eof()) {
+		std::string line;
+		std::getline(readerdpre, line);
+		std::stringstream reader(line);
+		while (!reader.eof()) {
+			reader >> dpre[i][j++];
+		}
+		j = 0;
+		i++;
+	}
+
+	i = 0, j = 0;
+
+	while (!readerdelay.eof()) {
+		std::string line;
+		std::getline(readerdelay, line);
+		std::stringstream reader(line);
+		while (!reader.eof()) {
+			reader >> delay[i][j++];
+		}
+		j = 0;
+		i++;
+	}
+
+	i = 0, j = 0;
+
+	while (!readerppre.eof()) {
+		std::string line;
+		std::getline(readerppre, line);
+		std::stringstream reader(line);
+		while (!reader.eof()) {
+			reader >> ppre[i][j++];
+		}
+		j = 0;
+		i++;
+	}
+
+	i = 0, j = 0;
+
+	while (!readerpost.eof()) {
+		std::string line;
+		std::getline(readerpost, line);
+		//std::cout<<line;
+		std::stringstream reader(line);
+		while (!reader.eof()) {
+			reader >> post[i][j++];
+		}
+		j = 0;
+		i++;
+	}
+
+	i = 0, j = 0;
+
+	while (!readerpp.eof()) {
+		std::string line;
+		std::getline(readerpp, line);
+		std::stringstream reader(line);
+		while (!reader.eof()) {
+			reader >> pp[i][j++];
+		}
+		j = 0;
+		i++;
+	}
+
+	i = 0, j = 0;
+
+	while (!readerpre.eof()) {
+		std::string line;
+		std::getline(readerpre, line);
+		std::stringstream reader(line);
+		while (!reader.eof()) {
+			reader >> pre[i][j++];
+		}
+		j = 0;
+		i++;
+	}
+
+	i = 0, j = 0;
+
+	while (!readers.eof()) {
+		std::string line;
+		std::getline(readers, line);
+		//std::cout << line <<std::endl;
+		std::stringstream reader(line);
+		//std::cout << reader(line) <<std::endl;
+		while (!reader.eof()) {
+			reader >> s[i][j++];
+		}
+		j = 0;
+		i++;
+	}
+
+	i = 0;
+	while (!readerinTime.eof()) {
+		std::string line;
+		std::getline(readerinTime, line);
+		std::cout << line << std::endl;
+		std::stringstream reader(line);
+		while (!reader.eof()) {
+			reader >> inputTime[i++];
+		}
+	}
+
+	i = 0;
+	while (!readerinNeur.eof()) {
+		std::string line;
+		std::getline(readerinNeur, line);
+		std::cout << line << std::endl;
+		std::stringstream reader(line);
+		while (!reader.eof()) {
+			reader >> inputNeur[i++];
+		}
+	}
+
+	readera.close();
+	readerdpre.close();
+	readerd.close();
+	readerdelay.close();
+	readerppre.close();
+	readerpost.close();
+	readerpp.close();
+	readerpre.close();
+	readers.close();
+	readerinNeur.close();
+	readerinTime.close();
+
+	for (i = 0; i < 8; i++) {
+		for (j = i+1; j < 9; j++) {
+			for (k = j+1; k < 10; k++) {
+				anchors[i1][0] = i + 1;
+				anchors[i1][1] = j + 1;
+				anchors[i1][2] = k + 1;
+				i1++;
+			}
+		}
+	}
+
+	double* dev_a;
+	double* dev_d;
+	double dev_dpre[225][50];
+	double dev_delay[225][22];
+	double dev_ppre[225][50];
+	double dev_post[225][22];
+	double dev_pp[225][22];
+	double dev_pre[225][50];
+	double dev_s[225][22];
+	bool* dev_pngOutput;
+	int dev_anchors[SIZE][3];
+	int* dev_N;
+	int* dev_D;
+	int* dev_T;
+	double* dev_inputTime;
+	double* dev_inputNeur;
+
+	cudaError_t err = cudaMalloc((void**) &dev_a, 225 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_d, 225 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_dpre, 225 * 50 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_delay, 225 * 22 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_ppre, 225 * 50 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_post, 225 * 22 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_pp, 225 * 22 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_pre, 225 * 50 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_s, 225 * 22 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_pngOutput, SIZE * sizeof(bool));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_anchors, SIZE * 3 * sizeof(int));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_inputNeur, 53 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_inputTime, 53 * sizeof(double));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	err = cudaMalloc((void**) &dev_N, 1 * sizeof(int));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+	err = cudaMalloc((void**) &dev_D, 1 * sizeof(int));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+	err = cudaMalloc((void**) &dev_T, 1 * sizeof(int));
+	if (err != cudaSuccess) {
+		std::cerr << "Error: " << cudaGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	cudaEvent_t start, end;
+	cudaEventCreate(&start);
+	cudaEventCreate(&end);
+
+	cudaEventRecord(start, 0);
+	//todo please complete this part
+
+	cudaMemcpy(dev_a, a, 225 * sizeof(double), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_d, d, 225 * sizeof(double), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_dpre, dpre, 225 * 50 * sizeof(double),
+			cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_delay, delay, 225 * 22 * sizeof(double),
+			cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_ppre, ppre, 225 * 50 * sizeof(double),
+			cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_post, post, 225 * 22 * sizeof(double),
+			cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_pp, pp, 225 * 22 * sizeof(double), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_pre, pre, 225 * 50 * sizeof(double), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_s, s, 225 * 22 * sizeof(double), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_pngOutput, pngOutput, SIZE * sizeof(bool),
+			cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_anchors, anchors, SIZE * 3 * sizeof(int),
+			cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_N, &N, 1 * sizeof(int), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_D, &D, 1 * sizeof(int), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_T, &T, 1 * sizeof(int), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_inputTime, inputTime, 53 * sizeof(double),
+			cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_inputNeur, inputNeur, 53 * sizeof(double),
+			cudaMemcpyHostToDevice);
+/*
+	testPolygroup<<<(SIZE + 1023) / 1024, 1024>>>(dev_a, dev_d, dev_dpre,
+			dev_delay, dev_ppre, dev_post, dev_pp, dev_pre, dev_s,
+			dev_pngOutput, dev_anchors, dev_N, dev_D, dev_T, dev_inputNeur,
+			dev_inputTime);
+*/
+	cudaMemcpy(pngOutput, dev_pngOutput, SIZE * sizeof(bool),
+			cudaMemcpyDeviceToHost);
+
+	cudaEventRecord(end, 0);
+	cudaEventSynchronize(end);
+
+	float elapsedTime;
+	cudaEventElapsedTime(&elapsedTime, start, end);
+
+	std::cout << "Yay! Your program's results are correct." << std::endl;
+	std::cout << "Your program took: " << elapsedTime << " ms." << std::endl;
+
+	// Cleanup in the event of success.
+	cudaEventDestroy(start);
+	cudaEventDestroy(end);
+
+	cudaFree(dev_a);
+	cudaFree(dev_d);
+	cudaFree(dev_dpre);
+	cudaFree(dev_delay);
+	cudaFree(dev_ppre);
+	cudaFree(dev_post);
+	cudaFree(dev_pp);
+	cudaFree(dev_pre);
+	cudaFree(dev_s);
+	cudaFree(dev_pngOutput);
+	cudaFree(dev_anchors);
+	cudaFree(dev_N);
+	cudaFree(dev_D);
+	cudaFree(dev_T);
+	cudaFree(dev_inputTime);
+	cudaFree(dev_inputNeur);
+	delete[] pngOutput;
+	for (i = 0; i < SIZE; ++i) {
+		delete[] anchors[i];
+	}
+	delete[] anchors;
+
+}
+

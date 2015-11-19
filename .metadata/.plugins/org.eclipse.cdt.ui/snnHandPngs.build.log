@@ -1,0 +1,64 @@
+18:13:48 **** Incremental Build of configuration Debug for project snnHandPngs ****
+make all 
+Building file: ../earlyDetection.cu
+Invoking: NVCC Compiler
+/usr/local/cuda-7.0/bin/nvcc -G -g -O0 -gencode arch=compute_20,code=sm_20 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_50,code=sm_50  -odir "." -M -o "earlyDetection.d" "../earlyDetection.cu"
+/usr/local/cuda-7.0/bin/nvcc -G -g -O0 --compile --relocatable-device-code=false -gencode arch=compute_20,code=compute_20 -gencode arch=compute_30,code=compute_30 -gencode arch=compute_50,code=compute_50 -gencode arch=compute_20,code=sm_20 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_50,code=sm_50  -x cu -o  "earlyDetection.o" "../earlyDetection.cu"
+../earlyDetection.cu(28): warning: variable "SIZE" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "j" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "k" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "i1" was declared but never referenced
+
+../earlyDetection.cu(28): warning: variable "SIZE" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "j" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "k" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "i1" was declared but never referenced
+
+../earlyDetection.cu(28): warning: variable "SIZE" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "j" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "k" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "i1" was declared but never referenced
+
+../earlyDetection.cu(28): warning: variable "SIZE" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "j" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "k" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "i1" was declared but never referenced
+
+../earlyDetection.cu(28): warning: variable "SIZE" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "j" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "k" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "i1" was declared but never referenced
+
+../earlyDetection.cu(28): warning: variable "SIZE" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "j" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "k" was declared but never referenced
+
+../earlyDetection.cu(34): warning: variable "i1" was declared but never referenced
+
+Finished building: ../earlyDetection.cu
+ 
+Building target: snnHandPngs
+Invoking: NVCC Linker
+/usr/local/cuda-7.0/bin/nvcc --cudart static --relocatable-device-code=false -gencode arch=compute_20,code=compute_20 -gencode arch=compute_30,code=compute_30 -gencode arch=compute_50,code=compute_50 -gencode arch=compute_20,code=sm_20 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_50,code=sm_50 -link -o  "snnHandPngs"  ./FindingPossPNGs.o ./HANDLE_ERROR.o ./ModelMaking.o ./earlyDetection.o ./polychronous.o ./testPolygroup.o  ./.metadata/.plugins/org.eclipse.cdt.make.core/specs.o   
+Finished building target: snnHandPngs
+ 
+
+18:14:03 Build Finished (took 14s.976ms)
+

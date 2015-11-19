@@ -1,0 +1,7 @@
+//org.eclipse.debug.core.PREFERRED_DELEGATES/org.eclipse.cdt.launch.applicationLaunchType=com.nvidia.cuda.ide.debug.launchApplicationDelegate,debug;com.nvidia.cuda.ide.debug.launchApplicationDelegate,run
+//org.eclipse.debug.core.PREFERRED_DELEGATES/org.eclipse.cdt.launch.attachLaunchType=com.nvidia.cuda.ide.debug.launch.attachCLaunch,debug
+//org.eclipse.debug.core.PREFERRED_DELEGATES/org.eclipse.cdt.launch.postmortemLaunchType=com.nvidia.cuda.ide.debug.coreCLaunch,debug
+//org.eclipse.debug.core.PREFERRED_DELEGATES/org.eclipse.cdt.launch.remoteApplicationLaunchType=com.nvidia.cuda.ide.remote.cudagdbserverrun,debug;com.nvidia.cuda.ide.remote.cudagdbserverrun,run
+eclipse.preferences.version=1
+org.eclipse.debug.core.PREF_BREAKPOINT_MANAGER_ENABLED_STATE=true
+prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<watchExpressions>\n<expression enabled\="true" text\="inputNeur[anchors[1]]"/>\n<expression enabled\="true" text\="numDigit2"/>\n<expression enabled\="true" text\="inputNeur[3]"/>\n<expression enabled\="true" text\="digit3"/>\n<expression enabled\="true" text\="digit1_l"/>\n<expression enabled\="true" text\="ceil((inputNeur[anchors[1]] - 5)/10)"/>\n<expression enabled\="true" text\="digit2_l"/>\n<expression enabled\="true" text\="currentModel(0)"/>\n<expression enabled\="true" text\="inputNeuronVec"/>\n</watchExpressions>\n
